@@ -1,4 +1,3 @@
-# fgfnet_api
+# FGFnet_BE
 
-
-api 서버입니다.
+api 서버입니다!
