@@ -19,14 +19,14 @@ public class Schedule {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDate buildingDate;
 
     @Column(nullable = false)
-    private Integer day;
+    private Integer buildingDay;
 
     @Builder
-    public Schedule(LocalDate date, Integer day) {
-        this.date = date;
-        this.day = day;
+    public Schedule(LocalDate buildingDate, Integer buildingDay) {
+        this.buildingDate = buildingDate;
+        this.buildingDay = buildingDay;
     }
 }
