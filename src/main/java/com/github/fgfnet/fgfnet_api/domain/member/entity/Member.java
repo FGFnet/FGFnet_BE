@@ -28,9 +28,11 @@ public class Member {
     private String studentId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private CampusType campus;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private RoleType role;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)

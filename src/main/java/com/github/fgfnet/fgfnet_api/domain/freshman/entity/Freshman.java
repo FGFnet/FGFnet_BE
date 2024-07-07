@@ -29,6 +29,7 @@ public class Freshman {
     private String phoneNumber;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private DepartmentType department;
 
     @Column(nullable = false)

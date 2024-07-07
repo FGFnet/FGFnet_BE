@@ -24,6 +24,7 @@ public class Todo {
     private String content;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TodoTargetType target;
 
     @ManyToOne(fetch = FetchType.LAZY)
