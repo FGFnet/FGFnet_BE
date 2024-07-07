@@ -15,10 +15,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
-            request -> request.requestMatchers(PathRequest.toH2Console()).permitAll()
-                    .anyRequest().authenticated())
-            .csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()))
-            .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+                        request -> request.requestMatchers(PathRequest.toH2Console()).permitAll()
+                                .requestMatchers("/api/hello").permitAll()
+                                .requestMatchers("/api/dev/**").permitAll()
+                                .anyRequest().authenticated())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         return http.build();
     }
 }
