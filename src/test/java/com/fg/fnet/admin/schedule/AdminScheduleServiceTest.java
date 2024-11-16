@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @ExtendWith(MockitoExtension.class)
 class AdminScheduleServiceTest {
@@ -71,6 +72,18 @@ class AdminScheduleServiceTest {
 
     AdminScheduleDto requestDto = AdminScheduleDto.builder()
         .schedules(List.of(scheduleDto1, scheduleDto2)).build();
+
+    // when & then
+    assertThrows(DataIntegrityViolationException.class,
+        () -> adminScheduleService.uploadSchedule(requestDto));
+  }
+
+  @Test
+  void Schedule_생성시_빈_필드가_있는_경우_에러() {
+    // given
+    ScheduleDTO scheduleDto1 = ScheduleDTO.builder().day(2).date(null).build();
+    AdminScheduleDto requestDto = AdminScheduleDto.builder()
+        .schedules(List.of(scheduleDto1)).build();
 
     // when & then
     assertThrows(IllegalArgumentException.class,

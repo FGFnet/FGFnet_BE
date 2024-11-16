@@ -32,15 +32,25 @@ public class AdminScheduleService {
     // 중복 값 검사
     List<ScheduleDTO> scheduleDTOs = request.getSchedules();
     List<Integer> days = scheduleDTOs.stream()
-        .map(ScheduleDTO::getDay)
+        .map(dto -> {
+          if (dto.getDay() == null) {
+            throw new IllegalArgumentException("파라미터를 다시 확인해주세요.");
+          }
+          return dto.getDay();
+        })
         .toList();
     List<LocalDate> dates = scheduleDTOs.stream()
-        .map(dto -> LocalDate.parse(dto.getDate()))
+        .map(dto -> {
+          if (dto.getDate() == null) {
+            throw new IllegalArgumentException("파라미터를 다시 확인해주세요.");
+          }
+          return LocalDate.parse(dto.getDate());
+        })
         .toList();
 
     if (days.size() != days.stream().distinct().count() || dates.size() != dates.stream().distinct()
         .count()) {
-      throw new IllegalArgumentException("day 또는 date에 중복된 값이 있습니다. 다시 확인해주세요.");
+      throw new DataIntegrityViolationException("파라미터에 중복된 값이 있습니다. 다시 확인해주세요.");
     }
 
     List<Schedule> schedules;

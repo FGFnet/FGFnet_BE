@@ -1,5 +1,6 @@
 package com.fg.fnet.admin.schedule;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,8 @@ public class AdminScheduleController {
   }
 
   @PostMapping
-  public ResponseEntity<AdminScheduleDto> createSchedule(@RequestBody AdminScheduleDto request) {
+  public ResponseEntity<AdminScheduleDto> createSchedule(
+      @Valid @RequestBody AdminScheduleDto request) {
     AdminScheduleDto response = adminScheduleService.uploadSchedule(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }

@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScheduleDTO {
 
-  private int day;
+  private Integer day;
   private String date;
 
   @Builder
-  public ScheduleDTO(int day, String date) {
+  public ScheduleDTO(Integer day, String date) {
     this.day = day;
     this.date = date;
   }
