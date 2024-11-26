@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminScheduleRepository extends JpaRepository<Schedule, Long> {
 
+  Schedule getReferenceByDay(Integer day);
+
 }
