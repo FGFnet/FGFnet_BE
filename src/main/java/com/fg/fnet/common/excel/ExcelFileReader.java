@@ -26,7 +26,7 @@ public class ExcelFileReader {
 
   private int columnNum;
 
-  public ExcelFileReader readFirstSheet(MultipartFile file) {
+  public ExcelFileReader readFirstSheet(MultipartFile file) throws IOException {
     ExcelFileReader excelFileHandler = new ExcelFileReader();
     Sheet sheet = getWorkbook(file).getSheetAt(0);
     int rowIdx = 0;
@@ -48,7 +48,6 @@ public class ExcelFileReader {
           rowData.add(getCellValueAsString(cell));
         }
       }
-
       this.data.add(rowData);
     }
 

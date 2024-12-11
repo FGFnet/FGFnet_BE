@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminLcRepository extends JpaRepository<Lc, Long> {
 
+  Lc findByName(String lcName);
 }

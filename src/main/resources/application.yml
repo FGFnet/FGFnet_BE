@@ -13,3 +13,6 @@ spring:
 
 api:
   prefix: '/api'
+
+password:
+  init: 'tb2025'
