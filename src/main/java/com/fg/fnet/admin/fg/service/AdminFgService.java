@@ -50,7 +50,7 @@ public class AdminFgService {
   }
 
   // FGs 생성
-  public Integer createFgs(List<FgDto> fgDtos) {
+  public void createFgs(List<FgDto> fgDtos) {
     List<Fg> fgs = fgDtos.stream()
         .map(fgDto -> Fg.builder()
             .name(fgDto.getName())
@@ -61,6 +61,6 @@ public class AdminFgService {
             .build())
         .toList();
 
-    return adminFgRepository.saveAll(fgs).size();
+    adminFgRepository.saveAll(fgs);
   }
 }

@@ -24,23 +24,26 @@ public class AdminFgLcService {
     this.adminLcRepository = adminLcRepository;
   }
 
-  public Integer mapFgLc(List<FgLcDto> fgLcDtos) {
+  public List<String> mapFgLc(List<FgLcDto> fgLcDtos) {
     List<FgLc> fgLcs = new ArrayList<>();
+    List<String> errorFgLcs = new ArrayList<>();
     for (FgLcDto fgLcDto : fgLcDtos) {
       for (String lcName : fgLcDto.getLcs()) {
         Lc lc = adminLcRepository.findByName(lcName);
         if (lc == null) {
-          throw new IllegalArgumentException("LC가 존재하지 않습니다.");
+          errorFgLcs.add(
+              String.format("'%s' 학생의 LC '%s'가 존재하지 않습니다.", fgLcDto.getStudentId(), lcName));
+        } else {
+          FgLc fgLc = FgLc.builder()
+              .fg(adminFgRepository.getByStudentId(fgLcDto.getStudentId()))
+              .lc(adminLcRepository.findByName(lcName))
+              .build();
+          fgLcs.add(fgLc);
         }
-
-        FgLc fgLc = FgLc.builder()
-            .fg(adminFgRepository.getByStudentId(fgLcDto.getStudentId()))
-            .lc(adminLcRepository.findByName(lcName))
-            .build();
-        fgLcs.add(fgLc);
       }
     }
 
-    return adminFgLcRepository.saveAll(fgLcs).size();
+    adminFgLcRepository.saveAll(fgLcs);
+    return errorFgLcs;
   }
 }

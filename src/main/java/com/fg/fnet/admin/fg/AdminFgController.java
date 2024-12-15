@@ -1,10 +1,11 @@
 package com.fg.fnet.admin.fg;
 
 import com.fg.fnet.admin.fg.dto.AdminFgDto;
+import com.fg.fnet.admin.fg.dto.AdminFgFacadeDto;
 import com.fg.fnet.admin.fg.service.AdminFgService;
 import com.fg.fnet.admin.fg.service.AdminFgServiceFacade;
 import java.io.IOException;
-import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +33,14 @@ public class AdminFgController {
   }
 
   @PostMapping
-  public ResponseEntity<List<Integer>> createFgs(@RequestParam("file") MultipartFile file)
+  public ResponseEntity<AdminFgFacadeDto> createFgs(@RequestParam("file") MultipartFile file)
       throws IOException {
-    List<Integer> response = adminFgServiceFacade.uploadFgs(file);
-    return ResponseEntity.ok(response);
+    AdminFgFacadeDto response = adminFgServiceFacade.uploadFgs(file);
+    if (response.getCode() == 200) {
+      return ResponseEntity.ok(response);
+    } else {
+      // response에서 code 필드를 제거한 후 반환
+      return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(response);
+    }
   }
 }

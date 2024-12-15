@@ -1,5 +1,6 @@
 package com.fg.fnet.admin.fg.service;
 
+import com.fg.fnet.admin.fg.dto.AdminFgFacadeDto;
 import com.fg.fnet.admin.fg.dto.FgExcelColumns;
 import com.fg.fnet.admin.fglc.AdminFgLcService;
 import com.fg.fnet.common.excel.ExcelDTOMapper;
@@ -72,12 +73,30 @@ public class AdminFgServiceFacade {
     return fgDtos;
   }
 
-  public List<Integer> uploadFgs(MultipartFile file) throws IOException {
+  public AdminFgFacadeDto uploadFgs(MultipartFile file) throws IOException {
     List<FgDto> fgDtos = getFgsFromFile(file);
-    Integer createdCount = adminFgService.createFgs(fgDtos);
-    Integer mappedCount = adminFgLcService.mapFgLc(fgDtos.stream().map(FgDto::toFgLcDto).toList());
+    Integer code = 200;
+    String createFgsMessage = "FG 생성이 완료되었습니다.";
+    String mappedFgLcMessage = "FG-LC 매핑이 완료되었습니다.";
+    List<String> errFgLcs = new ArrayList<>();
 
-    return List.of(createdCount, mappedCount);
+    try {
+      adminFgService.createFgs(fgDtos);
+    } catch (DataIntegrityViolationException e) {
+      throw new IllegalArgumentException("중복된 학번이 있습니다. 다시 확인해주세요.");
+    }
+
+    errFgLcs = adminFgLcService.mapFgLc(fgDtos.stream().map(FgDto::toFgLcDto).toList());
+    if (!errFgLcs.isEmpty()) {
+      code = 207;
+      mappedFgLcMessage = String.join(",", errFgLcs);
+    }
+
+    return AdminFgFacadeDto.builder()
+        .code(code)
+        .fg(createFgsMessage)
+        .fglc(mappedFgLcMessage)
+        .build();
   }
 
 }
