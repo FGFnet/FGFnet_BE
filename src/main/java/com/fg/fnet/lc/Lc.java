@@ -2,6 +2,7 @@ package com.fg.fnet.lc;
 
 import com.fg.fnet.common.BaseEntity;
 import com.fg.fnet.fg.entity.FgLc;
+import com.fg.fnet.freshman.Freshman;
 import com.fg.fnet.schedule.entity.Schedule;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,10 +30,14 @@ public class Lc extends BaseEntity {
   @OneToMany(mappedBy = "lc")
   private List<FgLc> fgLcs = new ArrayList<>();
 
+  @OneToMany(mappedBy = "lc")
+  private List<Freshman> freshmans = new ArrayList<>();
+
   @Builder
-  public Lc(String name, Schedule schedule) {
+  public Lc(String name, Schedule schedule, List<Freshman> freshmans) {
     this.name = name;
     this.schedule = schedule;
+    this.freshmans = freshmans;
   }
 
   public LcDto toDTO() {
