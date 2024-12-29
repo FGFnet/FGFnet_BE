@@ -38,7 +38,7 @@ public class Fg extends BaseEntity {
   @Column(nullable = false)
   private CampusType campus;
 
-  @Column(length = 20)
+  @Column(length = 100)
   private String password;
 
   @OneToMany(mappedBy = "fg")
@@ -58,11 +58,10 @@ public class Fg extends BaseEntity {
     return FgDto.builder()
         .name(name)
         .studentId(studentId)
-        .role(role.getRole())
+        .role(role.getKey())
         .campus(campus.getDescription())
         .lcs(fgLcs.stream().map(fgLc -> fgLc.getLc().getName()).toList())
         .build();
   }
-
 }
 

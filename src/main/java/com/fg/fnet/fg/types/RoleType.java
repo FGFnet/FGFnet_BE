@@ -7,13 +7,14 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RoleType {
-  SUPER_ADMIN_FG("최고관리자", "SUPER_ADMIN"),
-  ADMIN_FG("관리자FG", "ADMIN"),
-  USER_FG("담당FG", "USER"),
-  REGISTER_FG("접수FG", "REGISTER");
+  SUPER_ADMIN_FG("최고관리자", "ROLE_SUPER_ADMIN", "SUPER_ADMIN"),
+  ADMIN_FG("관리자FG", "ROLE_ADMIN", "ADMIN"),
+  USER_FG("담당FG", "ROLE_USER", "USER"),
+  REGISTER_FG("접수FG", "ROLE_REGISTER", "REGISTER");
 
   private final String description;
-  private final String role;
+  private final String key;
+  private final String subkey;
 
   public static RoleType findByDescription(String description) {
     return Arrays.stream(RoleType.values())
@@ -22,10 +23,11 @@ public enum RoleType {
         .orElseThrow(() -> new IllegalArgumentException("AuthType에 해당하는 description이 없습니다."));
   }
 
-  public static RoleType findByRole(String role) {
+  public static RoleType findByKey(String key) {
     return Arrays.stream(RoleType.values())
-        .filter(v -> v.getRole().equals(role))
+        .filter(v -> v.getKey().equals(key))
         .findAny()
-        .orElseThrow(() -> new IllegalArgumentException("AuthType에 해당하는 role이 없습니다."));
+        .orElseThrow(() -> new IllegalArgumentException("AuthType에 해당하는 key가 없습니다."));
   }
+
 }

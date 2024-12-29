@@ -11,6 +11,9 @@ spring:
     url: jdbc:h2:mem:test
     username: sa
 
+jwt:
+  secret: 304f61435aab13b01e19eefae55493f57c60202330b1853d231032a8dfab8adf # 변경하기!!!!
+
 api:
   prefix: '/api'
 
